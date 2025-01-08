@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Slider</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <style>
+        /* Reset default margin and padding for all elements */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Main container for the slider */
+        .main {
+            position: relative;
+            overflow: hidden;
+            height: 100vh; /* Full viewport height */
+        }
+
+        /* Individual slide styling */
+        .one {
+            height: 100vh;
+            width: 100%;
+            position: absolute;
+            opacity: 0; /* Initially hidden */
+            transition: opacity 1s ease; /* Smooth transition for opacity */
+        }
+
+        /* Image styling within each slide */
+        .one img {
+            height: 100vh;
+            width: 100%;
+            object-fit: cover; /* Cover the entire area */
+        }
+
+        /* Title styling for each slide */
+        .one h1 {
+            position: absolute;
+            color: #ffffff;
+            top: 90%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            z-index: 10; /* Ensure text is above images */
+            animation: UPER 1s ease-in-out; /* Animation for text appearance */
+        }
+
+        /* Text Animation Keyframes */
+        @keyframes UPER {
+            from {
+                transform: translate(-50%, 100%); /* Start from below */
+                opacity: 0; /* Start invisible */
+            }
+
+            to {
+                transform: translate(-50%, -50%); /* Move to center */
+                opacity: 1; /* Fade in */
+            }
+        }
+
+        /* Class to make the current slide visible */
+        .active {
+            opacity: 1; /* Fully visible */
+        }
+
+        /* Arrow button styling for navigation */
+        .arrow {
+            height: 40px;
+            width: 40px;
+            border-radius: 50%;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgb(0, 0, 0);
+            position: absolute;
+            top: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transform: translateY(-50%);
+            font-size: 20px;
+            color: #000000;
+            text-decoration: none;
+            z-index: 10; /* Ensure arrows are above slides */
+        }
+
+        /* Positioning for left and right arrows */
+        .arrow.left {
+            left: 20px;
+        }
+
+        .arrow.right {
+            right: 20px;
+        }
+
+        /* Dot buttons for slide indicators */
+        .dot-button {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+        }
+
+        /* Styling for individual dot buttons */
+        .btn {
+            height: 5px;
+            width: 40px;
+            background-color: #808080; /* Default color */
+            margin: 0 5px;
+            cursor: pointer;
+            transition: all .5s ease-in-out; /* Smooth transition on hover */
+        }
+
+        /* Hover effect for dot buttons */
+        .btn:hover {
+            background-color: #ffffff; /* Change color on hover */
+        }
+
+        /* Active dot button styling */
+        .btn.active {
+            background-color: #b30000; /* Active color */
+            width: 100px; /* Highlight active button */
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <!-- Slide 1 -->
+        <div class="one active">
+            <h1>Spider man</h1>
+            <img src="slide1.jpg" alt="">
+        </div>
+        <!-- Slide 2 -->
+        <div class="one">
+            <h1>Doctor Strange</h1>
+            <img src="slide2.webp" alt="">
+        </div>
+        <!-- Slide 3 -->
+        <div class="one">
+            <h1>Scarlet witch </h1>
+            <img src="slide3.jpg" alt="">
+        </div>
+
+        <!-- Navigation arrows -->
+        <a href="#" class="arrow left" onclick="changeSlide(-1)"><i class="fa-solid fa-chevron-left"></i></a>
+        <a href="#" class="arrow right" onclick="changeSlide(1)"><i class="fa-solid fa-chevron-right"></i></a>
+
+        <!-- Dot buttons for slide indicators -->
+        <div class="dot-button">
+            <div class="btn active" onclick="btn(0)"></div>
+            <div class="btn" onclick="btn(1)"></div>
+            <div class="btn" onclick="btn(2)"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlides = 0; // Initialize current slide index
+
+        // Function to show the current slide based on index
+        function showslides(index) {
+            const slides = document.getElementsByClassName('one');
+            const dots = document.getElementsByClassName('btn');
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].classList.remove('active'); // Hide all slides
+                dots[i].classList.remove('active'); // Deactivate all dots
+            }
+            slides[index].classList.add('active'); // Show the current slide
+            dots[index].classList.add('active'); // Activate the current dot
+        }
+
+        // Function to change slides based on direction
+        function changeSlide(direction) {
+            currentSlides += direction; // Update current slide index
+            const slides = document.getElementsByClassName('one');
+            if (currentSlides >= slides.length) {
+                currentSlides = 0; // Loop back to the first slide
+            } else if (currentSlides < 0) {
+                currentSlides = slides.length - 1; // Loop to the last slide
+            }
+            showslides(currentSlides); // Show the updated slide
+        }
+
+        // Function to handle dot button clicks
+        function btn(index) {
+            currentSlides = index; // Set current slide to the clicked button's index
+            showslides(currentSlides); // Show the corresponding slide
+        }
+    </script>
+</body>
+</html>
